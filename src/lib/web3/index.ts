@@ -38,10 +38,11 @@ export function formatAddress(address: string): string {
  * Utility function to format token amounts
  */
 export function formatTokenAmount(amount: bigint, decimals: number = 18): string {
-  const divisor = BigInt(10 ** decimals);
-  const integerPart = amount / divisor;
-  const fractionalPart = amount % divisor;
-  return `${integerPart}.${fractionalPart.toString().padStart(decimals, "0").slice(0, 4)}`;
+  // Convert to string representation with proper decimal places
+  const amountStr = amount.toString().padStart(decimals + 1, "0");
+  const integerPart = amountStr.slice(0, -decimals) || "0";
+  const fractionalPart = amountStr.slice(-decimals).slice(0, 4).padEnd(4, "0");
+  return `${integerPart}.${fractionalPart}`;
 }
 
 /**
