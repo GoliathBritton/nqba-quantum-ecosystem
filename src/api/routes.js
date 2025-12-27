@@ -27,6 +27,11 @@ export function setupRoutes(app, platform) {
     res.json(platform.solutions);
   });
 
+  // Public SDK catalog (what this platform can call)
+  app.get('/api/public/solutions/sdk-catalog', (req, res) => {
+    res.json(platform.sdkCatalog);
+  });
+
   // Auth (tenant/user creation)
   app.post('/api/auth/register', async (req, res) => {
     try {
@@ -130,6 +135,17 @@ export function setupRoutes(app, platform) {
         action,
         params,
       });
+      res.json(result);
+    } catch (error) {
+      res.status(400).json({ error: error.message, status: error.status, body: error.body });
+    }
+  });
+
+  // Integrations: catalog (dynamic if provider supports it)
+  app.get('/api/integrations/:providerId/catalog', requireAuth, async (req, res) => {
+    try {
+      const { providerId } = req.params;
+      const result = await platform.integrations.getCatalog({ tenantId: req.tenant.id, providerId });
       res.json(result);
     } catch (error) {
       res.status(400).json({ error: error.message, status: error.status, body: error.body });

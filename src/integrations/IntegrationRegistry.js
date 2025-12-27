@@ -7,6 +7,7 @@ import { GoHighLevelConnector } from './connectors/gohighlevel.js';
 import { SynthflowConnector } from './connectors/synthflow.js';
 import { HeyGenConnector } from './connectors/heygen.js';
 import { NvidiaConnector } from './connectors/nvidia.js';
+import { MicrosoftConnector } from './connectors/microsoft.js';
 import { NucoConnector } from './connectors/nuco.js';
 import { DealAIConnector } from './connectors/dealai.js';
 
@@ -21,6 +22,7 @@ export function createIntegrationRegistry({ platformConfig }) {
     new SynthflowConnector(platformConfig.integrations.providers.synthflow),
     new HeyGenConnector(platformConfig.integrations.providers.heygen),
     new NvidiaConnector(platformConfig.integrations.providers.nvidia),
+    new MicrosoftConnector(platformConfig.integrations.providers.microsoft),
     new NucoConnector(platformConfig.integrations.providers.nuco),
     new DealAIConnector(platformConfig.integrations.providers.dealai),
   ];

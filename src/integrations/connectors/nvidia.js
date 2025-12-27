@@ -29,6 +29,20 @@ export class NvidiaConnector {
     return { ok: true, sample: data?.choices?.[0]?.message?.content ?? null };
   }
 
+  async getCatalog(credentials) {
+    // Some NVIDIA endpoints expose /models (OpenAI-compatible). If not available, return actions only.
+    try {
+      const models = await httpRequest({
+        url: `${this.baseUrl}/models`,
+        method: 'GET',
+        headers: { Authorization: `Bearer ${credentials?.apiKey || ''}` },
+      });
+      return { brand: 'FLYFOX AI', provider: 'NVIDIA NIM', models: models?.data || models, actions: this.getInfo().actions };
+    } catch (e) {
+      return { brand: 'FLYFOX AI', provider: 'NVIDIA NIM', note: 'Model listing not available on this endpoint.', actions: this.getInfo().actions, error: e.message };
+    }
+  }
+
   async runAction({ action, params, credentials }) {
     switch (action) {
       case 'chat.completions': {

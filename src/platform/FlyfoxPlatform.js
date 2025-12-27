@@ -10,6 +10,7 @@ import { createIntegrationRegistry } from '../integrations/IntegrationRegistry.j
 import { IntegrationManager } from '../integrations/IntegrationManager.js';
 import { WorkflowEngine } from '../workflows/WorkflowEngine.js';
 import { flyfoxSolutionCatalog } from '../solutions/catalog.js';
+import { flyfoxSdkCatalog } from '../solutions/sdkCatalog.js';
 
 export class FlyfoxPlatform {
   constructor({ env = process.env } = {}) {
@@ -36,6 +37,7 @@ export class FlyfoxPlatform {
       store: this.store,
       registry: this.integrationRegistry,
       masterKey: this.platformConfig.security.masterKey,
+      defaultCredentials: this.platformConfig.integrations.defaults,
     });
 
     this.workflows = new WorkflowEngine({
@@ -45,6 +47,7 @@ export class FlyfoxPlatform {
     });
 
     this.solutions = flyfoxSolutionCatalog;
+    this.sdkCatalog = flyfoxSdkCatalog;
   }
 
   async initialize() {

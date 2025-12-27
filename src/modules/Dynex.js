@@ -95,15 +95,15 @@ export class DynexPlatform {
     }
   }
 
-  async solveOptimization(problem) {
+  async solveOptimization(_problem) {
     // Simulate annealing-based optimization
-    const iterations = problem.iterations || 1000;
+    const iterations = _problem.iterations || 1000;
     let bestSolution = null;
     let bestEnergy = Infinity;
 
     for (let i = 0; i < iterations; i++) {
-      const solution = this.generateRandomSolution(problem);
-      const energy = this.calculateEnergy(solution, problem);
+      const solution = this.generateRandomSolution(_problem);
+      const energy = this.calculateEnergy(solution, _problem);
 
       if (energy < bestEnergy) {
         bestEnergy = energy;
@@ -123,12 +123,12 @@ export class DynexPlatform {
     return Array(size).fill(0).map(() => Math.random() > 0.5 ? 1 : 0);
   }
 
-  calculateEnergy(solution, problem) {
+  calculateEnergy(solution, _problem) {
     // Simplified energy calculation
     return solution.reduce((sum, val, idx) => sum + val * (idx + 1), 0);
   }
 
-  async recognizePattern(data) {
+  async recognizePattern(_data) {
     // Simulate pattern recognition
     return {
       patterns: Math.floor(Math.random() * 10) + 1,

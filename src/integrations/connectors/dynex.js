@@ -28,6 +28,35 @@ export class DynexConnector {
     return { ok: true, note: 'Dynex integration scaffold is enabled. Use Dynex SDK for production execution.' };
   }
 
+  async getCatalog(_credentials) {
+    // High-level Dynex platform catalog, summarized for FLYFOX AI.
+    return {
+      brand: 'FLYFOX AI',
+      provider: 'Dynex',
+      offerings: [
+        {
+          id: 'neuromorphic-cloud',
+          name: 'Neuromorphic Compute Cloud (decentralized)',
+          description: 'Submit optimization / annealing-style jobs to Dynex network compute.',
+        },
+        {
+          id: 'qubo-ising',
+          name: 'QUBO / Ising Optimization',
+          description: 'Combinatorial optimization workflows (routing, scheduling, portfolio, feature selection).',
+        },
+        {
+          id: 'gate-circuits',
+          name: 'Gate-based Circuit Execution (via SDK interoperability)',
+          description: 'Interoperability with quantum toolchains (e.g., OpenQASM/Qiskit-style flows).',
+        },
+      ],
+      sdk: {
+        name: 'Dynex SDK (Python)',
+        notes: 'Primary integration surface for real Dynex compute; this server exposes a client-facing abstraction.',
+      },
+    };
+  }
+
   async runAction({ action, params }) {
     switch (action) {
       case 'compute.submit':

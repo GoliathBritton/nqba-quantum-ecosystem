@@ -96,7 +96,7 @@ export class SigmaEQ {
     
     for (const qubitId of stabilizer.qubits) {
       if (qubitId < physicalQubits.length) {
-        const qubit = physicalQubits[qubitId];
+        const _qubit = physicalQubits[qubitId];
         // Simulate measurement outcome
         parity ^= Math.random() > 0.95 ? 1 : 0; // 5% error rate
       }

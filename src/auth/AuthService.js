@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   safeUser(user) {
-    const { passwordHash, ...rest } = user;
+    const { passwordHash: _passwordHash, ...rest } = user;
     return rest;
   }
 }
