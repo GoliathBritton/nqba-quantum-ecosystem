@@ -6,13 +6,9 @@
  */
 
 import express from 'express';
-import { config } from 'dotenv';
-import { quantumConfig } from './config/quantum.config.js';
-import { QuantumEcosystem } from './modules/QuantumEcosystem.js';
+import 'dotenv/config';
+import { FlyfoxPlatform } from './platform/FlyfoxPlatform.js';
 import { setupRoutes } from './api/routes.js';
-
-// Load environment variables
-config();
 
 // Initialize Express app
 const app = express();
@@ -39,22 +35,22 @@ app.use((req, res, next) => {
   next();
 });
 
-// Initialize ecosystem
-const ecosystem = new QuantumEcosystem(quantumConfig);
+// Initialize platform
+const platform = new FlyfoxPlatform({ env: process.env });
 
 // Setup API routes
-setupRoutes(app, ecosystem);
+setupRoutes(app, platform);
 
 // Start server
 async function startServer() {
   try {
-    // Initialize the quantum ecosystem
-    await ecosystem.initialize();
+    // Initialize platform (store + ecosystem + connectors)
+    await platform.initialize();
 
-    const port = quantumConfig.system.port;
+    const port = platform.quantumConfig.system.port;
     
     app.listen(port, () => {
-      console.log(`\n🚀 Quantum Ecosystem API running on port ${port}`);
+      console.log(`\n🚀 FLYFOX AI Quantum Ecosystem API running on port ${port}`);
       console.log(`   Health: http://localhost:${port}/health`);
       console.log(`   Status: http://localhost:${port}/api/status`);
       console.log('\nReady to accept quantum computation requests.\n');
@@ -63,13 +59,13 @@ async function startServer() {
     // Graceful shutdown
     process.on('SIGINT', async () => {
       console.log('\nReceived SIGINT, shutting down gracefully...');
-      await ecosystem.shutdown();
+      await platform.ecosystem.shutdown();
       process.exit(0);
     });
 
     process.on('SIGTERM', async () => {
       console.log('\nReceived SIGTERM, shutting down gracefully...');
-      await ecosystem.shutdown();
+      await platform.ecosystem.shutdown();
       process.exit(0);
     });
 
@@ -81,4 +77,4 @@ async function startServer() {
 
 startServer();
 
-export { app, ecosystem };
+export { app, platform };

@@ -10,7 +10,7 @@
     "build": "node build.js",
     "test": "node --test src/**/*.test.js",
     "deploy": "npm run build && npm run deploy:prod",
-    "deploy:prod": "echo 'Deploy to production server'",
+    "deploy:prod": "echo 'Deploy step intentionally not implemented'",
     "lint": "eslint src/"
   },
   "keywords": [
@@ -29,8 +29,12 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "dotenv": "^16.3.1"
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^17.4.0",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "eslint": "^8.55.0"
